@@ -33,6 +33,7 @@ public class ConfigParser {
         // Check if users current working directory is the application folder or from the "java" folder
         if (!pathToFile.toAbsolutePath().toString().contains("src/main/java/"))
             pathToFile = FileSystems.getDefault().getPath("src/main/java/" + filename);
+
         if (!Files.exists(pathToFile)) throw new Error("This file doesn't exist");
         this.config = fileToMap(pathToFile);
 
@@ -55,6 +56,7 @@ public class ConfigParser {
      */
     private final Map<String, String> fileToMap(Path path) {
         Map<String, String > config = new HashMap<>();
+
         try (Scanner input = new Scanner(path)) {
             String prefix = ""; // to be prefixed in front of application property names
             while (input.hasNext()) {
