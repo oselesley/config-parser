@@ -21,20 +21,19 @@ public class ConfigParser {
         if (env == null) env = "production";
         switch (env.toLowerCase()) {
             case "staging":
-                filename += ".staging";
+                filename = filename.replace(".", "-staging.");
                 break;
             case "development": case "dev":
-                filename += ".dev";
+                filename = filename.replace(".", "-dev.");
                 break;
         }
-
         Path pathToFile = FileSystems.getDefault().getPath(filename); // Create a path object of the file
-
+        System.out.println(pathToFile.toAbsolutePath().toString());
         // Check if users current working directory is the application folder or from the "java" folder
         if (!pathToFile.toAbsolutePath().toString().contains("src/main/java/"))
             pathToFile = FileSystems.getDefault().getPath("src/main/java/" + filename);
 
-        if (!Files.exists(pathToFile)) throw new Error("This file doesn't exist");
+        if (!Files.exists(pathToFile)) throw new Error("This file is not present on the file system");
         this.config = fileToMap(pathToFile);
 
     }
